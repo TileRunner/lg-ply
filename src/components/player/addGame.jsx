@@ -2,6 +2,7 @@ import {useState,useEffect} from 'react';
 import {Container, Form, Button, Row, Col, Table, Alert} from 'react-bootstrap';
 
 const AddGame=({loggedInPlayer, thisLeague, thisLeaguePlayers, thisLeagueGames, submitData}) => {
+    const [leagueCode, setLeagueCode] = useState("");
     const newPlayer1Id = loggedInPlayer.id;
     const [newPlayer1Score, setNewPlayer1Score] = useState(0);
     const [newPlayer2Id, setNewPlayer2Id] = useState(0);
@@ -19,6 +20,10 @@ const AddGame=({loggedInPlayer, thisLeague, thisLeaguePlayers, thisLeagueGames, 
     
     function handleSubmit(event) {
         event.preventDefault();
+        if (thisLeague.code !== leagueCode) {
+            alert("Please enter the league code that the league manager provided.");
+            return;
+        }
         if (thisLeague.gamesPerOpp <= games.length) {
             alert(`All ${thisLeague.gamesPerOpp} games already entered`);
             return;
@@ -54,6 +59,17 @@ const AddGame=({loggedInPlayer, thisLeague, thisLeaguePlayers, thisLeagueGames, 
     return(<Container fluid>
         <Form onSubmit={handleSubmit}>
             <Form.Label as={'h1'}>Enter game result for {loggedInPlayer.nickname}:</Form.Label>
+            <Form.Group as={Row} controlId="leagueCode">
+                <Form.Label column sm={4}>League Code:</Form.Label>
+                <Col sm={5}>
+                    <Form.Control
+                        className="sm-1"
+                        type="text"
+                        value={leagueCode}
+                        onChange={e => { setLeagueCode(e.target.value); } }
+                        />
+                </Col>
+            </Form.Group>
             <Form.Group as={Row} controlId="playerSelection">
                 <Form.Label column sm={4}>Opponent:</Form.Label>
                 <Col sm='auto'>
