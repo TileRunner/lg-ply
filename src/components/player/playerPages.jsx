@@ -83,9 +83,19 @@ const PlayerPages=({loggedInPlayer, setLoggedInPlayer, leagueData, setLeagueData
             {loggedInPlayer.leagueId > 0 && <Tab eventKey='stats' title='Stats'>
                 <Stats loggedInPlayer={loggedInPlayer} thisLeague={thisLeague} players={leagueData.players} games={thisLeagueGames}/>
             </Tab>}
-            {loggedInPlayer.leagueId === 0 && <Tab eventKey='register' title='Register'>
+            {(loggedInPlayer.leagueId === 0 || thisLeague.status === 'Closed') && <Tab eventKey='register' title='Register'>
                 <Register leagueData={leagueData} setLeagueData={setLeagueData} loggedInPlayer={loggedInPlayer} setLoggedInPlayer={setLoggedInPlayer} setKey={setKey}/>
             </Tab>}
+            <Tab eventKey='logout' title='Logout'>
+                <div className='brighten'>
+                    <button onClick={() => setLoggedInPlayer({id: 0})}>
+                        <span
+                            data-bs-toggle='tooltip'
+                            title='Log out'
+                            className='material-symbols-outlined'>logout</span>
+                    </button>
+                </div>
+            </Tab>
         </Tabs>
     </div>)
 }
